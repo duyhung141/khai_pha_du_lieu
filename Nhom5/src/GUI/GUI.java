@@ -4,6 +4,11 @@
  */
 package GUI;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author leduy
@@ -13,6 +18,8 @@ public class GUI extends javax.swing.JFrame {
     /**
      * Creates new form GUI
      */
+    NaiveBayesGenderClassifier model = new NaiveBayesGenderClassifier();
+
     public GUI() {
         initComponents();
     }
@@ -26,7 +33,7 @@ public class GUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
+        btnPredict = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         txtResult = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
@@ -49,10 +56,10 @@ public class GUI extends javax.swing.JFrame {
         setTitle("Dự đoán giới tính");
         setLocation(new java.awt.Point(480, 150));
 
-        jButton1.setText("Dự đoán");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnPredict.setText("Dự đoán");
+        btnPredict.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnPredictActionPerformed(evt);
             }
         });
 
@@ -60,7 +67,10 @@ public class GUI extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(255, 0, 51));
         jLabel6.setText("Result");
 
+        txtResult.setBackground(new java.awt.Color(242, 242, 242));
         txtResult.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtResult.setForeground(new java.awt.Color(255, 0, 51));
+        txtResult.setDisabledTextColor(new java.awt.Color(255, 0, 0));
         txtResult.setEnabled(false);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -134,29 +144,24 @@ public class GUI extends javax.swing.JFrame {
                 .addGap(20, 20, 20)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(22, 22, 22)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(cbLipsThin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
-                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(cbLongHair, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(19, 19, 19)
-                                .addComponent(cbNoseWide, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(cbNoseLong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(cbLipsThin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(cbNoseLong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(cbLongHair, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(19, 19, 19)
+                        .addComponent(cbNoseWide, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtForeheadHeight, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -168,24 +173,19 @@ public class GUI extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(43, 43, 43)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(cbLongHair, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3)
-                            .addComponent(cbNoseWide, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(70, 70, 70))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(cbNoseLong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4)
-                            .addComponent(cbLipsThin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5))
-                        .addGap(18, 18, 18)))
-                .addGap(2, 2, 2)
+                .addGap(43, 43, 43)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(cbLongHair, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3)
+                    .addComponent(cbNoseWide, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(28, 28, 28)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbNoseLong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4)
+                    .addComponent(cbLipsThin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbDistanceNoseToLipLong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -200,14 +200,6 @@ public class GUI extends javax.swing.JFrame {
                 .addContainerGap(13, Short.MAX_VALUE))
         );
 
-        jLabel1.getAccessibleContext().setAccessibleParent(cbLongHair);
-        jLabel5.getAccessibleContext().setAccessibleParent(cbLipsThin);
-        jLabel7.getAccessibleContext().setAccessibleParent(cbDistanceNoseToLipLong);
-        jLabel3.getAccessibleContext().setAccessibleParent(cbNoseWide);
-        jLabel4.getAccessibleContext().setAccessibleParent(cbNoseLong);
-        jLabel8.getAccessibleContext().setAccessibleParent(txtForeheadWidth);
-        jLabel9.getAccessibleContext().setAccessibleParent(txtForeheadHeight);
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -221,7 +213,7 @@ public class GUI extends javax.swing.JFrame {
                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(121, 121, 121)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1)
+                    .addComponent(btnPredict)
                     .addComponent(txtResult, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -234,16 +226,66 @@ public class GUI extends javax.swing.JFrame {
                     .addComponent(txtResult, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
                 .addGap(18, 18, 18)
-                .addComponent(jButton1)
+                .addComponent(btnPredict)
                 .addContainerGap(17, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void btnPredictActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPredictActionPerformed
+        try {
+            boolean check=true;
+            String long_hair = cbLongHair.getItemAt(cbLongHair.getSelectedIndex());
+            double forehead_width_cm =Double.parseDouble(txtForeheadWidth.getText()) ;
+            String forehead_width_cm_range="";
+            if (forehead_width_cm > 11.4 && forehead_width_cm <= 12.425) {
+                forehead_width_cm_range = "11.4_12.425";
+            } else if (forehead_width_cm > 12.425 && forehead_width_cm <= 13.45) {
+                forehead_width_cm_range = "12.425_13.45";
+            } else if (forehead_width_cm > 13.45 && forehead_width_cm <= 14.475) {
+                forehead_width_cm_range = "13.45_14.475";
+            } else if (forehead_width_cm > 14.475 && forehead_width_cm <= 15.5) {
+                forehead_width_cm_range = "14.475_15.5";
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "Dữ liệu Forehead width không phù hợp. Xin hãy nhập lại trong khoảng tử 11.4 đến 15.5", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                check=true;            
+            }
+            double forehead_height_cm =Double.parseDouble(txtForeheadHeight.getText()) ;
+            String forehead_height_cm_range="";
+            if (forehead_height_cm > 5.1 && forehead_height_cm <= 5.6) {
+                forehead_height_cm_range = "5.1_5.6";
+            } else if (forehead_height_cm > 5.6 && forehead_height_cm <= 6.1) {
+                forehead_height_cm_range = "5.6_6.1";
+            } else if (forehead_height_cm > 6.1 && forehead_height_cm <= 6.6) {
+                forehead_height_cm_range = "6.1_6.6";
+            } else if (forehead_height_cm > 6.6 && forehead_height_cm <= 7.1) {
+                forehead_height_cm_range = "6.6_7.1";
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "Dữ liệu Forehead width không phù hợp. Xin hãy nhập lại trong khoảng tử 5.1 đến 7.1", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                check=true;
+            }
+            String nose_wide = cbNoseWide.getItemAt(cbNoseWide.getSelectedIndex());
+            String nose_long = cbNoseLong.getItemAt(cbNoseLong.getSelectedIndex());
+            String lips_thin = cbLipsThin.getItemAt(cbLipsThin.getSelectedIndex());
+            String distance_nose_to_lip_long = cbDistanceNoseToLipLong.getItemAt(cbDistanceNoseToLipLong.getSelectedIndex());
+            
+            if(long_hair.equals("None") || nose_wide.equals("None") || nose_long.equals("None") || lips_thin.equals("None") || distance_nose_to_lip_long.equals("None")){
+                JOptionPane.showMessageDialog(null, "Xin hãy điền đầy đủ thông tin", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                check=false;
+            }
+            
+            if(check){
+                String predict = model.predict(long_hair, forehead_width_cm_range, forehead_height_cm_range, nose_wide, nose_long, lips_thin, distance_nose_to_lip_long);
+                txtResult.setText(predict);
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+                  
+    }//GEN-LAST:event_btnPredictActionPerformed
 
     private void cbLongHairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbLongHairActionPerformed
         // TODO add your handling code here:
@@ -301,12 +343,12 @@ public class GUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnPredict;
     private javax.swing.JComboBox<String> cbDistanceNoseToLipLong;
     private javax.swing.JComboBox<String> cbLipsThin;
     private javax.swing.JComboBox<String> cbLongHair;
     private javax.swing.JComboBox<String> cbNoseLong;
     private javax.swing.JComboBox<String> cbNoseWide;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
