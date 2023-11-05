@@ -51,6 +51,7 @@ public class GUI extends javax.swing.JFrame {
         txtForeheadWidth = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         txtForeheadHeight = new javax.swing.JTextField();
+        btnPredict1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Dự đoán giới tính");
@@ -200,6 +201,13 @@ public class GUI extends javax.swing.JFrame {
                 .addContainerGap(13, Short.MAX_VALUE))
         );
 
+        btnPredict1.setLabel("Xóa");
+        btnPredict1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPredict1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -212,10 +220,14 @@ public class GUI extends javax.swing.JFrame {
                 .addGap(29, 29, 29)
                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(121, 121, 121)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnPredict)
-                    .addComponent(txtResult, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(txtResult, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnPredict1)
+                .addGap(18, 18, 18)
+                .addComponent(btnPredict)
+                .addGap(191, 191, 191))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -226,9 +238,13 @@ public class GUI extends javax.swing.JFrame {
                     .addComponent(txtResult, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
                 .addGap(18, 18, 18)
-                .addComponent(btnPredict)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnPredict)
+                    .addComponent(btnPredict1))
                 .addContainerGap(17, Short.MAX_VALUE))
         );
+
+        btnPredict1.getAccessibleContext().setAccessibleName("Xóa");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -249,23 +265,20 @@ public class GUI extends javax.swing.JFrame {
                 forehead_width_cm_range = "14.475_15.5";
             }
             else{
-                JOptionPane.showMessageDialog(null, "Dữ liệu Forehead width không phù hợp. Xin hãy nhập lại trong khoảng tử 11.4 đến 15.5", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                check=true;            
+                JOptionPane.showMessageDialog(null, "Dữ liệu Forehead width không phù hợp. Xin hãy nhập lại trong khoảng tử 11.4 đến 15.5", "Lỗi", JOptionPane.WARNING_MESSAGE);
+                check=false;            
             }
             double forehead_height_cm =Double.parseDouble(txtForeheadHeight.getText()) ;
             String forehead_height_cm_range="";
-            if (forehead_height_cm > 5.1 && forehead_height_cm <= 5.6) {
-                forehead_height_cm_range = "5.1_5.6";
-            } else if (forehead_height_cm > 5.6 && forehead_height_cm <= 6.1) {
-                forehead_height_cm_range = "5.6_6.1";
-            } else if (forehead_height_cm > 6.1 && forehead_height_cm <= 6.6) {
-                forehead_height_cm_range = "6.1_6.6";
-            } else if (forehead_height_cm > 6.6 && forehead_height_cm <= 7.1) {
-                forehead_height_cm_range = "6.6_7.1";
+            if (forehead_height_cm > 5.1 && forehead_height_cm <= 6.1) {
+                forehead_height_cm_range = "5.1_6.1";
+            } 
+            else if (forehead_height_cm > 6.1 && forehead_height_cm <= 7.1) {
+                forehead_height_cm_range = "6.1_7.1";
             }
             else{
-                JOptionPane.showMessageDialog(null, "Dữ liệu Forehead width không phù hợp. Xin hãy nhập lại trong khoảng tử 5.1 đến 7.1", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                check=true;
+                JOptionPane.showMessageDialog(null, "Dữ liệu Forehead width không phù hợp. Xin hãy nhập lại trong khoảng tử 5.1 đến 7.1", "Lỗi", JOptionPane.WARNING_MESSAGE);
+                check=false;
             }
             String nose_wide = cbNoseWide.getItemAt(cbNoseWide.getSelectedIndex());
             String nose_long = cbNoseLong.getItemAt(cbNoseLong.getSelectedIndex());
@@ -307,6 +320,17 @@ public class GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_cbDistanceNoseToLipLongActionPerformed
 
+    private void btnPredict1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPredict1ActionPerformed
+        cbLongHair.setSelectedIndex(0);
+        cbNoseWide.setSelectedIndex(0);
+        cbNoseLong.setSelectedIndex(0);
+        cbLipsThin.setSelectedIndex(0);
+        cbDistanceNoseToLipLong.setSelectedIndex(0);
+        txtForeheadWidth.setText("");
+        txtForeheadHeight.setText("");
+        txtResult.setText("");
+    }//GEN-LAST:event_btnPredict1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -344,6 +368,7 @@ public class GUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnPredict;
+    private javax.swing.JButton btnPredict1;
     private javax.swing.JComboBox<String> cbDistanceNoseToLipLong;
     private javax.swing.JComboBox<String> cbLipsThin;
     private javax.swing.JComboBox<String> cbLongHair;

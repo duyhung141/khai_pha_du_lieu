@@ -14,7 +14,8 @@ public class NaiveBayesGenderClassifier {
     private Map<String, Integer> maleWordCounts = new HashMap<>();
     private Map<String, Integer> femaleWordCounts = new HashMap<>();
 
-    public void train(String gender, String long_hair, String forehead_width_cm, String forehead_height_cm, String nose_wide, String nose_long, String lips_thin, String distance_nose_to_lip_long) {
+    public void calculateFeatureCount(String gender, String long_hair, String forehead_width_cm, String forehead_height_cm, String nose_wide, String nose_long, 
+            String lips_thin, String distance_nose_to_lip_long) {
         totalSamples++;
 
         // Đếm số lần xuất hiện của các đặc trưng cho từng giới tính
@@ -37,14 +38,18 @@ public class NaiveBayesGenderClassifier {
         }
     }
 
-    public String classify(String long_hair, String forehead_width_cm, String forehead_height_cm, String nose_wide, String nose_long, String lips_thin, String distance_nose_to_lip_long) {
-        double maleProbability = calculateGenderProbability("male", long_hair, forehead_width_cm, forehead_height_cm, nose_wide, nose_long, lips_thin, distance_nose_to_lip_long);
-        double femaleProbability = calculateGenderProbability("female", long_hair, forehead_width_cm, forehead_height_cm, nose_wide, nose_long, lips_thin, distance_nose_to_lip_long);
+    public String classify(String long_hair, String forehead_width_cm, String forehead_height_cm, 
+            String nose_wide, String nose_long, String lips_thin, String distance_nose_to_lip_long) {
+        double maleProbability = calculateGenderProbability("male", long_hair, forehead_width_cm, forehead_height_cm, 
+                nose_wide, nose_long, lips_thin, distance_nose_to_lip_long);
+        double femaleProbability = calculateGenderProbability("female", long_hair, forehead_width_cm, forehead_height_cm, 
+                nose_wide, nose_long, lips_thin, distance_nose_to_lip_long);
 
         return maleProbability > femaleProbability ? "male" : "female";
     }
 
-    private double calculateGenderProbability(String gender, String long_hair, String forehead_width_cm, String forehead_height_cm, String nose_wide, String nose_long, String lips_thin, String distance_nose_to_lip_long) {
+    private double calculateGenderProbability(String gender, String long_hair, String forehead_width_cm, String forehead_height_cm, 
+            String nose_wide, String nose_long, String lips_thin, String distance_nose_to_lip_long) {
         double probability = 1.0;
 
         // Tính xác suất dựa trên đặc trưng
@@ -78,7 +83,8 @@ public class NaiveBayesGenderClassifier {
     }
 
     private int getFeatureCount(String gender, String feature) {
-        return gender.equalsIgnoreCase("male") ? maleFeatureCounts.getOrDefault(feature, 0) : femaleFeatureCounts.getOrDefault(feature, 0);
+        return gender.equalsIgnoreCase("male") ? maleFeatureCounts.getOrDefault(feature, 0) : 
+                femaleFeatureCounts.getOrDefault(feature, 0);
     }
     
     public NaiveBayesGenderClassifier train() throws FileNotFoundException, IOException{
@@ -95,7 +101,7 @@ public class NaiveBayesGenderClassifier {
             String nose_long = parts[4];
             String lips_thin = parts[5];
             String distance_nose_to_lip_long = parts[6];
-            classifier.train(gender, long_hair, forehead_width_cm, forehead_height_cm, nose_wide, nose_long, lips_thin, distance_nose_to_lip_long);
+            classifier.calculateFeatureCount(gender, long_hair, forehead_width_cm, forehead_height_cm, nose_wide, nose_long, lips_thin, distance_nose_to_lip_long);
         }
         return classifier;
     }
@@ -119,12 +125,8 @@ public class NaiveBayesGenderClassifier {
             String testLipsThin = testParts[5];
             String testDistanceNoseToLipLong = testParts[6];
 
-            String predictedGender = classifier.classify(
-                testLongHair, testForeheadWidthCm, testForeheadHeightCm, testNoseWide, testNoseLong, testLipsThin, testDistanceNoseToLipLong);
-//            System.out.println("*******************");
-//            System.out.println("Lần "+totalTestSamples);
-//            System.out.println("Predict: "+predictedGender);
-//            System.out.println("True Gender: "+ trueGender);
+            String predictedGender = classifier.classify(testLongHair, testForeheadWidthCm, testForeheadHeightCm, 
+                    testNoseWide, testNoseLong, testLipsThin, testDistanceNoseToLipLong);
             if (predictedGender.equals(trueGender)) {
                 correctPredictions++;
             }
@@ -136,7 +138,8 @@ public class NaiveBayesGenderClassifier {
         System.out.println("Accuracy: "+correctPredictions*1.0/totalTestSamples);
     }
     
-    public String predict(String long_hair, String forehead_width_cm,String forehead_height_cm,String nose_wide, String nose_long, String lips_thin, String distance_nose_to_lip_long) throws IOException{
+    public String predict(String long_hair, String forehead_width_cm,String forehead_height_cm,String nose_wide, String nose_long, 
+            String lips_thin, String distance_nose_to_lip_long) throws IOException{
         NaiveBayesGenderClassifier model = train();
         String result=model.classify(long_hair, forehead_width_cm, forehead_height_cm, nose_wide, nose_long, lips_thin, distance_nose_to_lip_long);
         return result;
