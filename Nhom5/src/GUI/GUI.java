@@ -66,6 +66,7 @@ public class GUI extends javax.swing.JFrame {
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 0, 51));
+        jLabel6.setLabelFor(txtResult);
         jLabel6.setText("Result");
 
         txtResult.setBackground(new java.awt.Color(242, 242, 242));
@@ -132,9 +133,11 @@ public class GUI extends javax.swing.JFrame {
         });
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel8.setLabelFor(txtForeheadWidth);
         jLabel8.setText("Forehead Width");
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel9.setLabelFor(txtForeheadHeight);
         jLabel9.setText("Forehead Height");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -243,8 +246,6 @@ public class GUI extends javax.swing.JFrame {
                     .addComponent(btnPredict1))
                 .addContainerGap(17, Short.MAX_VALUE))
         );
-
-        btnPredict1.getAccessibleContext().setAccessibleName("Xóa");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
